@@ -96,14 +96,18 @@ function onReady(){
             }
         }
 
+        // if all employees are deleted
         if (employeeList.length === 0){
+            // make page look as it did before first employee was added
             $('p').remove();
             $('#removeHeading').remove();
             $('select').remove();
             $('#removeEmployee').remove();
+            // reset indicator to show no employees have been submitted
             $('#submitEmployee').data('submitted', 0);
             $('h4').text('Please submit employee information');
         }else{
+            // otherwise calculate and display monthly costs
             $('p').text('Total monthly costs: $' + calcMonthlyCosts(employeeList));
         }
 
