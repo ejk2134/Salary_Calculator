@@ -60,6 +60,14 @@ function onReady(){
             $('p').text('Total monthly costs: $' + calcMonthlyCosts(employeeList));
         }
 
+        // display employee information on DOM
+        if ($('#submitEmployee').data('submitted') === 0){
+            $('main').append($('<ul>'));
+        }
+
+        $empData = $('<li id="' + $('#empID').val() + '">').html($('#empLName').val() + ', ' + $('#empFName').val() + ' ID: ' + $('#empID').val() + ' Title: ' + $('#jobTitle').val() + ' Salary: ' + parseInt($('#empSalary').val()) + '<br>');
+        $('ul').append($empData);
+
         if ($('#submitEmployee').data('submitted') === 0){
             // add employee selector to DOM
             var $removeHeading = $('<h4>').text('Would you like to remove an employee?').attr('id', 'removeHeading');
@@ -91,11 +99,15 @@ function onReady(){
         // remove employee from employee array and from remove list
         for (var i = 0; i < employeeList.length; i++){
             if ($(':selected').attr('id') == employeeList[i].empID){
+                // remove employee from global array
                 employeeList.splice(i, 1);
+                // remove employee info from DOM
+                $('li#' + $(':selected').attr('id')).remove();
+                // remove employee name from dropdown menu
                 $(':selected').remove();
             }
         }
-
+        
         // if all employees are deleted
         if (employeeList.length === 0){
             // make page look as it did before first employee was added
@@ -106,6 +118,8 @@ function onReady(){
             // reset indicator to show no employees have been submitted
             $('#submitEmployee').data('submitted', 0);
             $('h4').text('Please submit employee information');
+            // remove list
+            $('ul').remove();
         }else{
             // otherwise calculate and display monthly costs
             $('p').text('Total monthly costs: $' + calcMonthlyCosts(employeeList));
